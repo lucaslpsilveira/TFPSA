@@ -34,7 +34,7 @@ class Produto_categoria_model extends CI_Model {
 	}
 
 	public function getAll() {
-		return $this->db->get('produto_categoria');
+		return $this->db->get('produto_categoria')->result();
 	}	
 
 	public function getById($id) {

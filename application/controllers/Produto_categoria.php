@@ -28,7 +28,7 @@ class Produto_categoria extends CI_Controller {
 	public function index() {
 		$data = new stdClass();
 
-		$data->result = $this->pcm->getAll()->result();
+		$data->result = $this->pcm->getAll();
 
 		$this->load->view('header');
 		$this->load->view('produto_categoria/index',$data);

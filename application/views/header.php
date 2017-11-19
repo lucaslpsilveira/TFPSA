@@ -59,3 +59,11 @@
 			</div><!-- .container -->
 		<?php endif; ?>
 		
+	<div class='row' style='margin: 20px 20px 20px 20px'>
+		<div class='col-md-2'>
+			<ul>
+				<li>Teste</li>
+				<li>Teste2</li>
+			</ul>
+		</div>
+		<div class='col-md-10'>

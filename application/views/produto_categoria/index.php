@@ -14,7 +14,7 @@
 					foreach ($result as $cat) {
 						echo '<tr><td>'.$cat->id.'</td><td>'.$cat->nome.'<td><a href="'.base_url().'index.php/produto_categoria/edit/'.$cat->id.'" class="btn btn-xs btn-info">Editar</a> <a href="'.base_url().'index.php/produto_categoria/delete/'.$cat->id.'" class="btn btn-xs btn-danger">Deletar</a></td></tr>';
 					}
-			}else{echo 'Ainda não existem Categorias';}?>
+			}else{echo '<tr><td>Ainda não existem Categorias</td></tr>';}?>
 		</table>
 	</div><!-- .row -->
 </div><!-- .container -->

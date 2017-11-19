@@ -19,24 +19,86 @@ class Produto extends CI_Controller {
 		parent::__construct();
 		$this->load->library(array('session'));
 		$this->load->helper(array('url'));
-		$this->load->model('produto_model');
-		
+		$this->load->model('produto_model','pm');
+		$this->load->helper('form');
+		$this->load->library('form_validation');
 	}
 	
 	
 	public function index() {
-		//$data = new stdClass();
+		$data = new stdClass();
+
+		$data->result = $this->pm->getAll();
 
 		$this->load->view('header');
-		$this->load->view('produto_addedit');
+		$this->load->view('produto/index',$data);
 		$this->load->view('footer');
 		
 	}
 	
 	public function add(){
-		$this->load->view('header');
-		$this->load->view('produto_categoria/addedit');
-		$this->load->view('footer');
+		$this->load->model('produto_categoria_model','pcm');
+		// set validation rules
+		$this->form_validation->set_rules('desc_breve', 'Descrição Breve', 'required');
+		
+		if ($this->form_validation->run() == false) {	
+			$this->load->view('header');
+			$this->load->view('produto/addedit',['page' => 'add',
+												 'result_categoria' =>$this->pcm->getAll()]);
+			$this->load->view('footer');			
+		} else {
+
+			$data = array(
+				'desc_breve'   	=> $this->input->post('desc_breve'),
+				'desc_comp' => $this->input->post('desc_comp'),
+				'id_categoria'	=> $this->input->post('id_categoria')
+			);
+
+			$this->pm->add($data);
+
+			redirect(base_url().'index.php/produto');
+		}
+
+	}
+
+	public function edit($id){
+		$this->load->model('produto_categoria_model','pcm');
+		// set validation rules
+		$this->form_validation->set_rules('desc_breve', 'Descrição breve', 'required');
+		
+		$query = $this->pm->getById($id);
+
+		if ($this->form_validation->run() == false) {	
+			$this->load->view('header');
+			$this->load->view('produto/addedit',['query' => $query,
+												 'page' => 'edit',
+												 'result_categoria' =>$this->pcm->getAll()]);
+			$this->load->view('footer');			
+		} else {
+
+			$data = array(
+				'desc_breve'   	=> $this->input->post('desc_breve'),
+				'desc_comp' => $this->input->post('desc_comp'),
+				'id_categoria'	=> $this->input->post('id_categoria')
+			);
+
+			$this->pm->update($id,$data);
+
+			redirect(base_url().'index.php/produto');
+		}
+	}
+
+	public function delete($id){
+		if($_POST == NULL){
+			$this->load->view('header');
+			$this->load->view('produto/delete');
+			$this->load->view('footer');
+		}else{
+			if($this->input->post('confirma')=='S'){
+				$this->pm->delete($id);
+			}
+			redirect(base_url().'index.php/produto');
+		}
 	}
 	
 }
