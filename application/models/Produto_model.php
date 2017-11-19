@@ -38,11 +38,30 @@ class Produto_model extends CI_Model {
 	}
 
 	public function getAll() {
-		$this->db->select('*, c.nome as categoria, p.id as idproduto, c.id as idcategoria ');
-		$this->db->from('produto as p');
-		$this->db->join('produto_categoria as c', 'p.id = c.id');
-		return $this->db->get()->result();
+		$query = 'SELECT *, c.nome as categoria, p.id as idproduto, c.id as idcategoria 
+				  FROM (produto as p) JOIN produto_categoria as c 
+				  ON p.produto_categoria_id = c.id';
+
+		return $this->db->query($query)->result();
+	}
+
+	public function getAllLote($id) {
+		$query = 'SELECT *, c.nome as categoria, p.id as idproduto, c.id as idcategoria 
+				  FROM (produto as p) JOIN produto_categoria as c 
+				  ON p.produto_categoria_id = c.id
+				  WHERE p.lote_id = '.$id;
+				  
+		return $this->db->query($query)->result();
 	}	
+
+	public function getNoLote() {
+		$query = 'SELECT *, c.nome as categoria, p.id as idproduto, c.id as idcategoria 
+				  FROM (produto as p) JOIN produto_categoria as c 
+				  ON p.produto_categoria_id = c.id
+				  WHERE p.lote_id IS NULL';
+
+		return $this->db->query($query)->result();
+	}
 
 	public function getById($id) {
 		$this->db->where('id', $id);
@@ -52,6 +71,18 @@ class Produto_model extends CI_Model {
 	public function delete($id){
 		$this->db->where('id', $id);
 		return $this->db->delete('produto');
+	}
+
+	public function addLote($id,$lote) {
+		$this->db->set('lote_id', $lote);
+		$this->db->where('id', $id);
+		return $this->db->update('produto');
+	}
+
+	public function rmLote($id) {
+		$this->db->set('lote_id', NULL);
+		$this->db->where('id', $id);
+		return $this->db->update('produto');
 	}
 	
 }

@@ -103,4 +103,13 @@ class Produto extends CI_Controller {
 		}
 	}
 	
+	public function addLote($id,$lote) {
+		$this->pm->addLote($id,$lote);
+		redirect(base_url().'index.php/lote/edit/'.$lote);
+	}
+
+	public function rmLote($id,$lote) {
+		$this->pm->rmLote($id);
+		redirect(base_url().'index.php/lote/edit/'.$lote);
+	}
 }

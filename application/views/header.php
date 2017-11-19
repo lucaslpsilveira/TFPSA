@@ -31,7 +31,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="<?= base_url() ?>">Site title</a>
+					<a class="navbar-brand" href="<?= base_url() ?>">Leilão PSA</a>
 				</div>
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav navbar-right">
@@ -61,9 +61,12 @@
 		
 	<div class='row' style='margin: 20px 20px 20px 20px'>
 		<div class='col-md-2'>
-			<ul>
-				<li>Teste</li>
-				<li>Teste2</li>
-			</ul>
+			<nav class="nav-sidebar">
+				<ul class="nav tabs">
+					<li><a href='<?=base_url();?>index.php/produto_categoria'>Categorias</a></li>
+					<li><a href='<?=base_url();?>index.php/produto'>Produtos</a></li>
+					<li><a href='<?=base_url();?>index.php/lote'>Lotes</a></li>
+				</ul>
+			</nav>
 		</div>
 		<div class='col-md-10'>
