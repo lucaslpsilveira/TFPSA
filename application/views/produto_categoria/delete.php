@@ -1,20 +1,13 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <div class="container">
 	<div class="row">
-		<?php if (validation_errors()) : ?>
+		<?php if ($utilizado) { ?>
 			<div class="col-md-12">
 				<div class="alert alert-danger" role="alert">
-					<?= validation_errors() ?>
+					<h1>Esta categoria não pode ser deletada, pois está vinculada a um ou mais produtos!</h1>
 				</div>
 			</div>
-		<?php endif; ?>
-		<?php if (isset($error)) : ?>
-			<div class="col-md-12">
-				<div class="alert alert-danger" role="alert">
-					<?= $error ?>
-				</div>
-			</div>
-		<?php endif; ?>
+		<?php }else{ ?>
 		<div class="col-md-12">
 			<div class="page-header">
 				<h1>Cadastro de Categoria de produtos</h1>
@@ -41,5 +34,6 @@
 				</div>
 			</form>
 		</div>
+		<?php } ?>
 	</div><!-- .row -->
 </div><!-- .container -->

@@ -1,20 +1,13 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <div class="container">
 	<div class="row">
-		<?php if (validation_errors()) : ?>
+		<?php if ($query->lote_id != null){ ?>
 			<div class="col-md-12">
 				<div class="alert alert-danger" role="alert">
-					<?= validation_errors() ?>
+					<h1>Este produto não pode ser deletado, pois está vinculado a um lote!</h1>
 				</div>
 			</div>
-		<?php endif; ?>
-		<?php if (isset($error)) : ?>
-			<div class="col-md-12">
-				<div class="alert alert-danger" role="alert">
-					<?= $error ?>
-				</div>
-			</div>
-		<?php endif; ?>
+		<?php }else{ ?>
 		<div class="col-md-12">
 			<div class="page-header">
 				<h1>Cadastro de Categoria de produtos</h1>
@@ -27,7 +20,7 @@
 			<?= form_open() ?>
 
 				<div class="form-group row">
-						<h1>Voce está prestes a deletar uma categoria!</h1>
+						<h1>Voce está prestes a deletar um produto!</h1>
                         <?php                   
                             echo form_label('Tem certeza? <span class="required">*</span>','confirma',$label_style); 
                             $options = array('N'  => 'Não','S' => 'Sim');
@@ -41,5 +34,6 @@
 				</div>
 			</form>
 		</div>
+		<?php } ?>
 	</div><!-- .row -->
 </div><!-- .container -->

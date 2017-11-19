@@ -46,5 +46,13 @@ class Produto_categoria_model extends CI_Model {
 		$this->db->where('id', $id);
 		return $this->db->delete('produto_categoria');
 	}
+
+	public function utilizado($id){
+		$this->db->where('produto_categoria_id', $id);
+		if($this->db->get('produto')->result() != null){
+			return true;
+		}
+		return false;
+	}
 	
 }

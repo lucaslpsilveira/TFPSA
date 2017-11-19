@@ -90,8 +90,10 @@ class Produto extends CI_Controller {
 
 	public function delete($id){
 		if($_POST == NULL){
+			$query = $this->pm->getById($id);
+
 			$this->load->view('header');
-			$this->load->view('produto/delete');
+			$this->load->view('produto/delete',['query'=>$query]);
 			$this->load->view('footer');
 		}else{
 			if($this->input->post('confirma')=='S'){

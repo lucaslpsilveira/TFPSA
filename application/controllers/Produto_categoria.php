@@ -74,8 +74,9 @@ class Produto_categoria extends CI_Controller {
 
 	public function delete($id){
 		if($_POST == NULL){
+			$query = $this->pcm->utilizado($id);
 			$this->load->view('header');
-			$this->load->view('produto_categoria/delete');
+			$this->load->view('produto_categoria/delete',['utilizado' => $query]);
 			$this->load->view('footer');
 		}else{
 			if($this->input->post('confirma')=='S'){
