@@ -93,5 +93,15 @@ class lote extends CI_Controller {
 			redirect(base_url().'index.php/lote');
 		}
 	}
+
+	public function addLote($id,$lote) {
+		$this->lote->addLote($id,$lote);
+		redirect(base_url().'index.php/leilao/edit/'.$lote);
+	}
+
+	public function rmLote($id,$lote) {
+		$this->lote->rmLote($id);
+		redirect(base_url().'index.php/leilao/edit/'.$lote);
+	}
 	
 }

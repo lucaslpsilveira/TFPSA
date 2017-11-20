@@ -1,16 +1,16 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <div class="container">
 	<div class="row">
-		<?php if ($query->lote_id != null){ ?>
+		<?php if ($query->data_hora_inicio != null){ ?>
 			<div class="col-md-12">
 				<div class="alert alert-danger" role="alert">
-					<h1>Este produto não pode ser deletado, pois está vinculado a um lote!</h1>
+					<h1>Este leilão já foi iniciado e não pode ser deletado!</h1>
 				</div>
 			</div>
 		<?php }else{ ?>
 		<div class="col-md-12">
 			<div class="page-header">
-				<h1>Cadastro de Categoria de produtos</h1>
+				<h1>Cadastro de leilões</h1>
 			</div>
 
 			<?php

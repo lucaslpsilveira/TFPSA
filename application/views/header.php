@@ -61,6 +61,7 @@
 						<?php endif?>
 						<li><a href='<?=base_url();?>index.php/produto'>Produtos</a></li>
 						<li><a href='<?=base_url();?>index.php/lote'>Lotes</a></li>
+						<li><a href='<?=base_url();?>index.php/leilao/meus_leiloes'>Meus Leilões</a></li>
 					<?php endif; ?>
 					<li><a href='<?=base_url();?>index.php/leilao'>Leilões</a></li>
 				</ul>

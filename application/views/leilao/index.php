@@ -23,7 +23,7 @@
 					foreach ($result as $leilao) {
 						echo '<tr><td>'.$leilao->id.'</td>
 								  <td>'.$leilao->data_hora_fim.'</td>
-								  <td><a href="'.base_url().'index.php/leilao/edit/'.$leilao->id.'" class="btn btn-xs btn-info">Editar</a> <a href="'.base_url().'index.php/leilao/delete/'.$leilao->id.'" class="btn btn-xs btn-danger">Deletar</a></td>
+								  <td><a href="'.base_url().'index.php/leilao/detalhes/'.$leilao->id.'" class="btn btn-xs btn-success">Visualizar</a> <a href="'.base_url().'index.php/leilao/edit/'.$leilao->id.'" class="btn btn-xs btn-info">Editar</a> <a href="'.base_url().'index.php/leilao/delete/'.$leilao->id.'" class="btn btn-xs btn-danger">Deletar</a></td>
 							  </tr>';
 					}
 			}else{echo '<tr><td>Ainda não existem leiloes</td></tr>';}?>

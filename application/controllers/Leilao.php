@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * 
  * @extends CI_Controller
  */
-class leilao extends CI_Controller {
+class Leilao extends CI_Controller {
 
 	/**
 	 * __construct function.
@@ -15,78 +15,162 @@ class leilao extends CI_Controller {
 	 * @return void
 	 */
 	public function __construct() {
+		
 		parent::__construct();
 		$this->load->library(array('session'));
 		$this->load->helper(array('url'));
-		$this->load->model('leilao_model','leilao');
+		$this->load->model('leilao_model','pm');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
+		if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true) {
+			
+		}else{
+			redirect(base_url().'index.php/user/login');
+		}
 	}
 	
 	
 	public function index() {
 		$data = new stdClass();
 
-		$data->result = $this->leilao->getAll();
+		$data->result = $this->pm->getAll();
 		if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true) {
 			$data->logar = 'logado';
 		}else{
-			$data->logar = 'Logue no sistema para dar lances e criar leilões';
-		}
+			$data->logar = 'Para participar e criar novos leilões faça login no sistema';
+		}		
 
 		$this->load->view('header');
 		$this->load->view('leilao/index',$data);
 		$this->load->view('footer');
 		
 	}
+
+	public function detalhes($id) {
+		$data = new stdClass();
+
+		$data->result = $this->pm->getInfo($id);
+		if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true) {
+			$data->logar = 'logado';
+		}else{
+			$data->logar = 'Para participar e criar novos leilões faça login no sistema';
+		}		
+
+		$this->load->view('header');
+		$this->load->view('leilao/visualizar',$data);
+		$this->load->view('footer');
+		
+	}
+
+	public function meus_leiloes() {
+		$data = new stdClass();
+
+		if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true) {
+			$data->logar = 'logado';
+			$data->result  = $this->pm->getPublicados($_SESSION['user_id']);
+			$data->result2 = $this->pm->getNaoPublicados($_SESSION['user_id']);
+			$data->result3 = $this->pm->getFinalizados($_SESSION['user_id']);
+		}else{
+			$data->logar = 'Para participar e criar novos leilões faça login no sistema';
+		}		
+
+		$this->load->view('header');
+		$this->load->view('leilao/my',$data);
+		$this->load->view('footer');
+		
+	}
 	
 	public function add(){
-
+		if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true) {
 		// set validation rules
-		$this->form_validation->set_rules('nome', 'Nome', 'required');
+		$this->form_validation->set_rules('data_fim', 'Data e Hora Fim', 'required');
+		$this->form_validation->set_rules('valor', 'Valor', 'required');
 		
 		if ($this->form_validation->run() == false) {	
 			$this->load->view('header');
 			$this->load->view('leilao/addedit',['page' => 'add']);
 			$this->load->view('footer');			
 		} else {
-			redirect(base_url().'index.php/leilao/edit/'.$this->leilao->add($this->input->post('nome')));
+
+			$data = array(
+				'data_fim'   	=> $this->input->post('data_fim'),
+				'tipo' 			=> $this->input->post('tipo'),
+				'tipo_lance'	=> $this->input->post('tipo_lance'),
+				'valor'			=> $this->input->post('valor'),
+				'user_id'		=> $_SESSION['user_id']
+			);
+
+			$this->pm->add($data);
+
+			redirect(base_url().'index.php/leilao');
+		}
+		}else{
+			redirect(base_url().'index.php/user/login');
 		}
 
 	}
 
 	public function edit($id){
-		$this->load->model('produto_model','prod');
+		if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true) {
+
+		$this->load->model('lote_model','lote');
 		// set validation rules
-		$this->form_validation->set_rules('nome', 'Nome', 'required');
+		$this->form_validation->set_rules('data_fim', 'Data e Hora Fim', 'required');
 		
-		$query = $this->leilao->getById($id);
-	
+		$query = $this->pm->getById($id);
+		$lote 	   = $this->lote->getNoLote($_SESSION['user_id']);
+		$leilao_lote = $this->lote->getAllLote($id,$_SESSION['user_id']);
+
 		if ($this->form_validation->run() == false) {	
 			$this->load->view('header');
-			$this->load->view('leilao/addedit',['query' 		  => $query,
-											  'page'  		  => 'edit']);
+			$this->load->view('leilao/addedit',['result' 		=> $query,
+												 'page' 		=> 'edit',
+												 'lote' 		=> $lote,
+												 'leilao_lote'	=> $leilao_lote,
+												 'idleilao'		=> $id]);
 			$this->load->view('footer');			
 		} else {
 
-			$this->leilao->update($id,$this->input->post('nome'));
+			$data = array(
+				'data_fim'   	=> $this->input->post('data_fim'),
+				'tipo' 			=> $this->input->post('tipo'),
+				'tipo_lance'	=> $this->input->post('tipo_lance')
+			);
+
+			$this->pm->update($id,$data);
 
 			redirect(base_url().'index.php/leilao');
+		}
+		}else{
+			redirect(base_url().'index.php/user/login');
 		}
 	}
 
 	public function delete($id){
+		if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true) {
 		if($_POST == NULL){
-			$query = $this->leilao->utilizado($id);
+			$query = $this->pm->getById($id);
+
 			$this->load->view('header');
-			$this->load->view('leilao/delete',['utilizado' => $query]);
+			$this->load->view('leilao/delete',['query'=>$query]);
 			$this->load->view('footer');
 		}else{
 			if($this->input->post('confirma')=='S'){
-				$this->leilao->delete($id);
+				$this->pm->delete($id);
 			}
 			redirect(base_url().'index.php/leilao');
 		}
+		}else{
+			redirect(base_url().'index.php/user/login');
+		}
 	}
 	
+	public function publicar($id){
+		if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true) {
+			$this->pm->publicar($id);
+			redirect(base_url().'index.php/leilao/meus_leiloes/'.$lote);
+		}else{
+			redirect(base_url().'index.php/user/login');
+		}
+	}
 }

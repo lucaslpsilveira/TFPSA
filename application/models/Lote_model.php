@@ -55,5 +55,30 @@ class Lote_model extends CI_Model {
 		}
 		return false;
 	}
+
+	public function getAllLote($id,$user_id) {
+		$this->db->where('leilao_id', $id);
+		$this->db->where('user_id', $user_id);
+				  
+		return $this->db->get('lote')->result();
+	}	
+
+	public function getNoLote($user_id) {
+		$this->db->where('user_id', $user_id);
+		$this->db->where('leilao_id IS NULL');
+
+		return $this->db->get('lote')->result();
+	}
 	
+	public function addLote($id,$leilao) {
+		$this->db->set('leilao_id', $leilao);
+		$this->db->where('id', $id);
+		return $this->db->update('lote');
+	}
+
+	public function rmLote($id) {
+		$this->db->set('leilao_id', NULL);
+		$this->db->where('id', $id);
+		return $this->db->update('lote');
+	}
 }
