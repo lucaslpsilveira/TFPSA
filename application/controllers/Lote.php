@@ -32,7 +32,7 @@ class lote extends CI_Controller {
 	public function index() {
 		$data = new stdClass();
 
-		$data->result = $this->lote->getAll();
+		$data->result = $this->lote->getAll($_SESSION['user_id']);
 
 		$this->load->view('header');
 		$this->load->view('lote/index',$data);
@@ -50,7 +50,13 @@ class lote extends CI_Controller {
 			$this->load->view('lote/addedit',['page' => 'add']);
 			$this->load->view('footer');			
 		} else {
-			redirect(base_url().'index.php/lote/edit/'.$this->lote->add($this->input->post('nome')));
+
+			$data = array(
+				'nome'   		=> $this->input->post('nome'),
+				'user_id'		=> $_SESSION['user_id']
+			);
+
+			redirect(base_url().'index.php/lote/edit/'.$this->lote->add($data));
 		}
 
 	}

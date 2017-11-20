@@ -41,6 +41,16 @@ class Leilao extends CI_Controller {
 		
 	}
 
+	public function WSLeiloes(){
+		header('Content-type: application/json');
+		echo json_encode($this->pm->getAll());
+	}
+
+	public function WSLeilao($id){
+		header('Content-type: application/json');
+		echo json_encode($this->pm->getById($id));
+	}
+
 	public function detalhes($id) {
 		$this->load->model('lance_model','lance');
 		$data = new stdClass();

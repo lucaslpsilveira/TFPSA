@@ -33,7 +33,7 @@ class Produto extends CI_Controller {
 	public function index() {
 		$data = new stdClass();
 
-		$data->result = $this->pm->getAll();
+		$data->result = $this->pm->getAll($_SESSION['user_id']);
 
 		$this->load->view('header');
 		$this->load->view('produto/index',$data);
@@ -55,8 +55,9 @@ class Produto extends CI_Controller {
 
 			$data = array(
 				'desc_breve'   	=> $this->input->post('desc_breve'),
-				'desc_comp' => $this->input->post('desc_comp'),
-				'id_categoria'	=> $this->input->post('id_categoria')
+				'desc_comp' 	=> $this->input->post('desc_comp'),
+				'id_categoria'	=> $this->input->post('id_categoria'),
+				'user_id'		=> $_SESSION['user_id']
 			);
 
 			$this->pm->add($data);

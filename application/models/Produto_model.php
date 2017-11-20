@@ -20,7 +20,8 @@ class Produto_model extends CI_Model {
 		$data = array(
 			'descricao_breve'   	=> $_data['desc_breve'],
 			'descricao_completa' 	=> $_data['desc_comp'],
-			'produto_categoria_id'	=> $_data['id_categoria']
+			'produto_categoria_id'	=> $_data['id_categoria'],
+			'user_id'				=> $_data['user_id']
 		);
 
 		return $this->db->insert('produto', $data);
@@ -37,10 +38,10 @@ class Produto_model extends CI_Model {
 		
 	}
 
-	public function getAll() {
+	public function getAll($id) {
 		$query = 'SELECT *, c.nome as categoria, p.id as idproduto, c.id as idcategoria 
 				  FROM (produto as p) JOIN produto_categoria as c 
-				  ON p.produto_categoria_id = c.id';
+				  ON p.produto_categoria_id = c.id where p.user_id = '.$id;
 
 		return $this->db->query($query)->result();
 	}

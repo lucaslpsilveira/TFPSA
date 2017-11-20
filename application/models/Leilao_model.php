@@ -94,8 +94,14 @@ class Leilao_model extends CI_Model {
 	}
 
 	public function getById($id) {
-		$this->db->where('id', $id);
-		return $this->db->get('leilao')->row();
+		$query ='SELECT lei.id as idleilao, valor_minimo, tipo, tipo_lance, 
+		u.username as usuario, descricao_breve, p.id as idproduto, lote.id as idlote, data_hora_fim
+ FROM leilao as lei 
+	join lote as lote on lei.id = lote.leilao_id
+    join produto as p on lote.id = p.lote_id
+    join users 	as u on lei.user_id = u.id
+    where lei.id = '.$id.' order by idlote';
+		return $this->db->query($query)->result();
 	}	
 
 	public function delete($id){

@@ -15,10 +15,11 @@ class Lote_model extends CI_Model {
 		
 	}
 	
-	public function add($nome) {
+	public function add($_data) {
 		
 		$data = array(
-			'nome'   => $nome
+			'nome'   => $_data['nome'],
+			'user_id' => $_data['user_id'],
 		);
 
 		$this->db->insert('lote', $data);
@@ -34,7 +35,8 @@ class Lote_model extends CI_Model {
 		
 	}
 
-	public function getAll() {
+	public function getAll($id) {
+		$this->db->where('user_id', $id);
 		return $this->db->get('lote')->result();
 	}	
 

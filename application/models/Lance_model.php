@@ -15,10 +15,15 @@ class Lance_model extends CI_Model {
 		
 	}
 	
-	public function add($valor) {
-		
+	public function add($valor,$idleilao,$user_id) {
+		$now = new DateTime('America/Sao_Paulo');
+		$date = get_object_vars($now);
+
 		$data = array(
-			'valor'   => $valor
+			'valor'   	=> $valor,
+			'leilao_id' => $idleilao,
+			'user_id'	=> $user_id,
+			'data_hora'	=> $date['date']
 		);
 
 		return $this->db->insert('lance', $data);
@@ -30,9 +35,9 @@ class Lance_model extends CI_Model {
 	on l.user_id = u.id where l.leilao_id = '.$id;
 	
 		if ($tipo == 1) {
-			$query .= ' order by valor desc';
+			$query .= ' order by valor desc, data_hora asc';
 		}else{
-			$query .= ' order by valor asc';
+			$query .= ' order by valor,data_hora asc  ';
 		}
 		
 		return $this->db->query($query)->result();

@@ -30,7 +30,9 @@
                 <div class='row'>
                     <div class='col-md-6'><h1>Cadastro de Leilões</h1></div>
                     <div class='col-md-6'>
+                        <?php if (isset($idleilao)){?>
                         <a href="<?php echo base_url().'index.php/leilao/publicar/'.$idleilao; ?>" class="btn btn-success" style='float:right; margin-top: 20px;'>Publicar</a>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -101,6 +103,8 @@
                         ?>       
                         <div class="col-md-9">
                             <?= form_input($data)?>
+                            <p class="help-block">Para o Leilão de Demanda deve-se informar o valor máximo que se deseja pagar.</p>
+                            <p class="help-block">No Leilão de oferta deve-se informar o valor minimo a ser aceito pelos itens.</p>
                         </div>                     
                     </div>
 
