@@ -99,8 +99,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</h1>
 
 		<div id="body">
-			<h1> Berremacheira Leilões </h1>
-			<p>Esse é o leilão do Beretta</p>
+			<h1> Leilão PSA </h1>
+			<p>Trabalho final da disciplina de Projeto de Software Avançado.</p>
+			<a href='index.php/user/register'>Cadastrar-se no Sistema!</a><br>
+			<a href='index.php/user/login'>Logar-se no Sistema!</a>
 		</div>
 
 		<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>

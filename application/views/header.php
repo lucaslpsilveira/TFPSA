@@ -36,10 +36,10 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav navbar-right">
 						<?php if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true) : ?>
-							<li><a href="<?= base_url('logout') ?>">Logout</a></li>
+							<li><a href="<?= base_url()?>index.php/user/logout">Logout</a></li>
 						<?php else : ?>
-							<li><a href="<?= base_url('register') ?>">Register</a></li>
-							<li><a href="<?= base_url('login') ?>">Login</a></li>
+							<li><a href="<?= base_url()?>index.php/user/register">Register</a></li>
+							<li><a href="<?= base_url()?>index.php/user/login">Login</a></li>
 						<?php endif; ?>
 					</ul>
 				</div><!-- .navbar-collapse -->
@@ -49,23 +49,20 @@
 
 	<main id="site-content" role="main">
 		
-		<?php if (isset($_SESSION)) : ?>
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<?php var_dump($_SESSION); ?>
-					</div>
-				</div><!-- .row -->
-			</div><!-- .container -->
-		<?php endif; ?>
+	
 		
 	<div class='row' style='margin: 20px 20px 20px 20px'>
 		<div class='col-md-2'>
 			<nav class="nav-sidebar">
 				<ul class="nav tabs">
-					<li><a href='<?=base_url();?>index.php/produto_categoria'>Categorias</a></li>
-					<li><a href='<?=base_url();?>index.php/produto'>Produtos</a></li>
-					<li><a href='<?=base_url();?>index.php/lote'>Lotes</a></li>
+					<?php if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true) : ?>
+						<?php if ($_SESSION['username'] == 'admin') : ?>
+						<li><a href='<?=base_url();?>index.php/produto_categoria'>Categorias</a></li>
+						<?php endif?>
+						<li><a href='<?=base_url();?>index.php/produto'>Produtos</a></li>
+						<li><a href='<?=base_url();?>index.php/lote'>Lotes</a></li>
+					<?php endif; ?>
+					<li><a href='<?=base_url();?>index.php/leilao'>Leilões</a></li>
 				</ul>
 			</nav>
 		</div>

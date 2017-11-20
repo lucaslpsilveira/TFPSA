@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * 
  * @extends CI_Controller
  */
-class Produto_categoria extends CI_Controller {
+class leilao extends CI_Controller {
 
 	/**
 	 * __construct function.
@@ -15,28 +15,27 @@ class Produto_categoria extends CI_Controller {
 	 * @return void
 	 */
 	public function __construct() {
-		
 		parent::__construct();
 		$this->load->library(array('session'));
 		$this->load->helper(array('url'));
-		$this->load->model('produto_categoria_model','pcm');
+		$this->load->model('leilao_model','leilao');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
-		if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true && $_SESSION['username']=='admin') {
-			
-		}else{
-			redirect(base_url().'index.php/user/login');
-		}
 	}
 	
 	
 	public function index() {
 		$data = new stdClass();
 
-		$data->result = $this->pcm->getAll();
+		$data->result = $this->leilao->getAll();
+		if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true) {
+			$data->logar = 'logado';
+		}else{
+			$data->logar = 'Logue no sistema para dar lances e criar leilões';
+		}
 
 		$this->load->view('header');
-		$this->load->view('produto_categoria/index',$data);
+		$this->load->view('leilao/index',$data);
 		$this->load->view('footer');
 		
 	}
@@ -48,46 +47,45 @@ class Produto_categoria extends CI_Controller {
 		
 		if ($this->form_validation->run() == false) {	
 			$this->load->view('header');
-			$this->load->view('produto_categoria/addedit',['page' => 'add']);
+			$this->load->view('leilao/addedit',['page' => 'add']);
 			$this->load->view('footer');			
 		} else {
-
-			$this->pcm->add($this->input->post('nome'));
-
-			redirect(base_url().'index.php/produto_categoria');
+			redirect(base_url().'index.php/leilao/edit/'.$this->leilao->add($this->input->post('nome')));
 		}
 
 	}
 
 	public function edit($id){
+		$this->load->model('produto_model','prod');
 		// set validation rules
 		$this->form_validation->set_rules('nome', 'Nome', 'required');
 		
-		$query = $this->pcm->getById($id);
-
+		$query = $this->leilao->getById($id);
+	
 		if ($this->form_validation->run() == false) {	
 			$this->load->view('header');
-			$this->load->view('produto_categoria/addedit',['query' => $query,'page' => 'edit']);
+			$this->load->view('leilao/addedit',['query' 		  => $query,
+											  'page'  		  => 'edit']);
 			$this->load->view('footer');			
 		} else {
 
-			$this->pcm->update($id,$this->input->post('nome'));
+			$this->leilao->update($id,$this->input->post('nome'));
 
-			redirect(base_url().'index.php/produto_categoria');
+			redirect(base_url().'index.php/leilao');
 		}
 	}
 
 	public function delete($id){
 		if($_POST == NULL){
-			$query = $this->pcm->utilizado($id);
+			$query = $this->leilao->utilizado($id);
 			$this->load->view('header');
-			$this->load->view('produto_categoria/delete',['utilizado' => $query]);
+			$this->load->view('leilao/delete',['utilizado' => $query]);
 			$this->load->view('footer');
 		}else{
 			if($this->input->post('confirma')=='S'){
-				$this->pcm->delete($id);
+				$this->leilao->delete($id);
 			}
-			redirect(base_url().'index.php/produto_categoria');
+			redirect(base_url().'index.php/leilao');
 		}
 	}
 	

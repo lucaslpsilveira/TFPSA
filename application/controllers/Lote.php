@@ -15,13 +15,17 @@ class lote extends CI_Controller {
 	 * @return void
 	 */
 	public function __construct() {
-		
 		parent::__construct();
 		$this->load->library(array('session'));
 		$this->load->helper(array('url'));
 		$this->load->model('lote_model','lote');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
+		if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true) {
+			
+		}else{
+			redirect(base_url().'index.php/user/login');
+		}
 	}
 	
 	
