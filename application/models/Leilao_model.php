@@ -105,7 +105,7 @@ class Leilao_model extends CI_Model {
 	
 	public function getInfo($id) {
 		$query = 'SELECT lei.id as idleilao, valor_minimo, tipo, tipo_lance, 
-					u.username as usuario, descricao_breve, p.id as idproduto
+					u.username as usuario, descricao_breve, p.id as idproduto, data_hora_fim
 			 		FROM leilao as lei 
 					join lote as lote on lei.id = lote.leilao_id
 				    join produto as p on lote.id = p.lote_id

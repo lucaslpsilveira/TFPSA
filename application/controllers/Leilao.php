@@ -22,11 +22,6 @@ class Leilao extends CI_Controller {
 		$this->load->model('leilao_model','pm');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
-		if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true) {
-			
-		}else{
-			redirect(base_url().'index.php/user/login');
-		}
 	}
 	
 	
@@ -47,9 +42,13 @@ class Leilao extends CI_Controller {
 	}
 
 	public function detalhes($id) {
+		$this->load->model('lance_model','lance');
 		$data = new stdClass();
 
 		$data->result = $this->pm->getInfo($id);
+
+		$data->lance = $this->lance->getAll($id,$data->result[0]->tipo);
+
 		if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true) {
 			$data->logar = 'logado';
 		}else{

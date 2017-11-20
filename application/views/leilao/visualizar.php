@@ -23,14 +23,36 @@
 						<li><?=$row->descricao_breve?></li>
 		<?php } ?>
 					</ul>
-			<p><h4><b>Valor:</b><h4></p>
+			<?php if ($result[0]->tipo == 2) { ?>
+ 			<p><h4><b>Valor Maximo a pagar:</b><h4></p>
+ 			<?php } ?>
 		</div>
 		<div class='col-md-9'>
 			<h3>Formato leilão:</h3>
 			<p><b>Tipo:</b> <?= ($result[0]->tipo == 1) ? 'Demanda' : 'Oferta' ?></p>
-			<p><b>Lance:</b> <?= ($result[0]->tipo == 1) ? 'Aberto' : 'Fechado' ?></p>
+			<p><b>Lance:</b> <?= ($result[0]->tipo_lance == 1) ? 'Aberto' : 'Fechado' ?></p>
 		</div>	
 		<?php } ?>	
 	</div><!-- .row -->
 	<hr>
+	<?php 
+		$now = new DateTime('America/Sao_Paulo');
+		$date = get_object_vars($now);		
+	if ($result[0]->tipo_lance == 1 or $result[0]->data_hora_fim < $date['date']) { ?>
+		<div class="row">
+		<table class='table table-hover'>
+			<th>id</th><th>Usuário</th><th>Hora Lance</th><th>Valor</th>
+			<?php if($lance != null){ 
+					//var_dump($result);
+					foreach ($lance as $leilao) {
+						echo '<tr><td>'.$leilao->id.'</td>
+								  <td>'.$leilao->username.'</td>
+								  <td>'.$leilao->data_hora.'</td>
+								  <td>'.$leilao->valor.'</td>
+							  </tr>';
+					}
+			}else{echo '<tr><td>Ainda não existem lances</td></tr>';}?>
+		</table>
+	</div>
+	<?php } ?>
 </div><!-- .container -->
