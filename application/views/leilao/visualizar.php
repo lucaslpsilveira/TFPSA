@@ -36,6 +36,8 @@
 					</ul>
 			<?php if ($result[0]->tipo == 2) { ?>
  			<p><h4><b>Valor Maximo a pagar: <?=$result[0]->valor_minimo?></b><h4></p>
+ 			<?php }else{ ?>
+			<p><h4><b>Lance Minimo: <?=$result[0]->valor_minimo?></b><h4></p> 				
  			<?php } ?>
 		</div>
 		<div class='col-md-3'>

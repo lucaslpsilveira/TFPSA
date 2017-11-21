@@ -31,13 +31,15 @@ class Lance_model extends CI_Model {
 	}
 
 	public function getAll($id,$tipo) {
-		$query = 'SELECT l.id as id,data_hora,valor,username FROM lance as l join users as u 
-	on l.user_id = u.id where l.leilao_id = '.$id;
+		$query = 'SELECT valor_minimo, l.id as id,data_hora,valor,username FROM lance as l join users as u 
+	on l.user_id = u.id
+    join leilao as lei
+    on lei.id = l.leilao_id where l.leilao_id = '.$id;
 	
 		if ($tipo == 1) {
-			$query .= ' order by valor desc, data_hora asc';
+			$query .= ' and valor_minimo < valor order by valor desc, data_hora asc';
 		}else{
-			$query .= ' order by valor,data_hora asc  ';
+			$query .= ' and valor_minimo > valor order by valor,data_hora asc  ';
 		}
 		
 		return $this->db->query($query)->result();
